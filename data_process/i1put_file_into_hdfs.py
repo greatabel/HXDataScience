@@ -29,8 +29,8 @@ a = hdfs.path.isdir('test_not_exist')
 b = hdfs.path.isdir('data')
 print(a==False, b==True)
 
-hdfs = hdfs.hdfs()
-data_list = hdfs.list_directory('data')
+hdfs_client = hdfs.hdfs()
+data_list = hdfs_client.list_directory('data')
 print(data_list)
 
 for item in data_list:
@@ -40,5 +40,5 @@ for item in data_list:
         hdfs.rm(item['name'], recursive=True, user=None)
 
 print('---after rm ---')
-data_list = hdfs.list_directory('data')
+data_list = hdfs_client.list_directory('data')
 print(data_list)

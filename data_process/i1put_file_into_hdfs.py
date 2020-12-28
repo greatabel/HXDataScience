@@ -21,9 +21,7 @@ hdfs dfs -ls data
 
 '''
 
-import pyhdfs
-
-
-fs = pyhdfs.HdfsClient(hosts='127.0.0.1,50070',user_name='hdfs')
-print(fs.get_home_directory() )#返回这个用户的根目录
-fs.get_active_namenode()#返回可用的namenode节点
+import pydoop.hdfs as hdfs
+a = hdfs.path.isdir('test')
+b = hdfs.path.isdir('data')
+print(a, b)

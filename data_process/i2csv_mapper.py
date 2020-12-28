@@ -1,5 +1,6 @@
 import sys
 
+# https://stackoverflow.com/questions/58057157/filtering-out-files-in-hdfs-with-time-range
 
 for line in sys.stdin:
     line = line.strip()

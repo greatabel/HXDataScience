@@ -29,5 +29,6 @@ a = hdfs.path.isdir('test_not_exist')
 b = hdfs.path.isdir('data')
 print(a==False, b==True)
 
-data_list = hdfs.path.list_directory('data')
+hdfs = hdfs.hdfs()
+data_list = hdfs.list_directory('data')
 print(data_list)

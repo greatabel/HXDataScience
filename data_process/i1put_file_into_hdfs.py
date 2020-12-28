@@ -34,6 +34,7 @@ data_list = hdfs.list_directory('data')
 print(data_list)
 
 for item in data_list:
+    print(item['name'])
     if '2020-12-28_generated_demo.csv.csv' in item['name']:
         print('rm -->', item['name'])
         hdfs.rm(item['name'], recursive=True, user=None)

@@ -32,3 +32,11 @@ print(a==False, b==True)
 hdfs = hdfs.hdfs()
 data_list = hdfs.list_directory('data')
 print(data_list)
+
+for item in data_list:
+    if '2020-12-28_generated_demo.csv.csv' in item:
+        hdfs.rm(item.name, recursive=True, user=None)
+
+print('---after rm ---')
+data_list = hdfs.list_directory('data')
+print(data_list)

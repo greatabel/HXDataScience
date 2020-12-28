@@ -42,3 +42,8 @@ for item in data_list:
 print('---after rm ---')
 data_list = hdfs_client.list_directory('data')
 print(data_list)
+
+hdfs.put('2020-12-28_generated_demo.csv', 'data')
+print('---after put ---')
+data_list = hdfs_client.list_directory('data')
+print(data_list)

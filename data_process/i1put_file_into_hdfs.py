@@ -20,8 +20,9 @@ hdfs dfs -ls data
 
 
 '''
-from snakebite.client import Client
 
-client = Client('localhost', 9870)
-for x in client.ls(['/data']):
-   print(x)
+from hdfs3 import HDFileSystem
+
+hdfs = HDFileSystem(host='localhost', port=8020)
+
+hdfs.ls('/user/data')

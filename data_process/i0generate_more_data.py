@@ -16,7 +16,7 @@ def main():
 
     args = parser.parse_args()
     times = args.times
-    print('multiple times=', times)
+    print("multiple times=", times)
 
     # global times
     # source_demo.csv 's count is 100

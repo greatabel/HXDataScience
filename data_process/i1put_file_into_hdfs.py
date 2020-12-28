@@ -1,5 +1,6 @@
 '''
-# 以 100w条数据的 2020-12-28_generated_demo.csv 为例子，步骤如下：
+# 以 100w条数据的 2020-12-28_generated_demo.csv 为例子，
+直接hdfs的bash 命令的方式， 步骤如下：
 
 # 关闭只读模式 
 hdfs dfsadmin -safemode leave
@@ -18,5 +19,9 @@ hdfs dfs -ls data
 
 
 
-
 '''
+from snakebite.client import Client
+
+client = Client('localhost', 9000)
+for x in client.ls(['/']):
+   print(x)

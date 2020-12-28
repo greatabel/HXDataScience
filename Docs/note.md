@@ -1,2 +1,3 @@
-
-https://www.oreilly.com/library/view/hadoop-with-python/9781492048435/ch01.html
+Pydoop is a Python interface to Hadoop that allows you to 
+write MapReduce applications in pure Python
+http://crs4.github.io/pydoop/

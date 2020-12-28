@@ -1,4 +1,5 @@
 '''
+
 # 以 100w条数据的 2020-12-28_generated_demo.csv 为例子，
 直接hdfs的bash 命令的方式， 步骤如下：
 
@@ -22,6 +23,11 @@ hdfs dfs -ls data
 '''
 
 import pydoop.hdfs as hdfs
-a = hdfs.path.isdir('test')
+
+
+a = hdfs.path.isdir('test_not_exist')
 b = hdfs.path.isdir('data')
-print(a, b)
+print(a==False, b==True)
+
+data_list = hdfs.list_directory('data')
+print(data_list)

@@ -1,11 +1,25 @@
+import argparse
 from i0csv_operation import csv_write, csv_reader
-
-# 添加多少倍到原始文件
-times = 3
 
 
 def main():
-    global times
+    parser = argparse.ArgumentParser(description="process video/image")
+    parser.add_argument(
+        "--times",
+        type=int,
+        default=1,
+        help="choose how many times of original file you want to generate",
+    )
+
+    # parser.add_argument('--debug', type=bool, default=False,
+    #                     help='use debug mode')
+
+    args = parser.parse_args()
+    times = args.times
+    print('multiple times=', times)
+
+    # global times
+    # source_demo.csv 's count is 100
     sourcelist = csv_reader("source_demo.csv")
     # print(len(sourcelist))
     lastrow = sourcelist[-1]

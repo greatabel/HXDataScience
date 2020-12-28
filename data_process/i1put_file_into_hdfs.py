@@ -21,8 +21,9 @@ hdfs dfs -ls data
 
 '''
 
-from hdfs3 import HDFileSystem
+import pyhdfs
 
-hdfs = HDFileSystem(host='localhost', port=8020)
 
-hdfs.ls('/user/data')
+fs = pyhdfs.HdfsClient(hosts='127.0.0.1,50070',user_name='hdfs')
+print(fs.get_home_directory() )#返回这个用户的根目录
+fs.get_active_namenode()#返回可用的namenode节点

@@ -1,1 +1,1 @@
-pyhdfs
+pyhdfs==0.3.1

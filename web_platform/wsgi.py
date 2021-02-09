@@ -9,6 +9,7 @@ from flask import redirect
 from flask import Blueprint, render_template as rt
 
 from flask import Flask, Response
+from flask import jsonify
 
 from movie import create_app
 from movie.domain.model import Director, User, Review, Movie
@@ -166,6 +167,22 @@ def file_download(filename):
     return Response(send_chunk(), content_type='application/octet-stream')
 
 # --------------------------
+
+@app.route('/senordata', methods=["GET"])
+def senordata():
+
+    searchdate = request.args.get('searchdate')
+    print(searchdate, 'in /senordata')
+    if searchdate is None:
+        return 405, 'not allowed'
+
+    # compatible for data post from url for putao and
+    # data post from body for try-out approval from Apple
+    # in future, front end unify send method, it need to amodify
+    result = {}
+
+    result['data'] = ['sphere0, test1']
+    return jsonify(result)
 
 
 if __name__ == "__main__":

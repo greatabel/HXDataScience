@@ -12,13 +12,13 @@ hdfs dfsadmin -safemode leave
 hdfs dfs -rm -r 2020-12-28_generated_demo.csv
 
 # 在hdfs上创建data目录
-hdfs dfs -mkdir data
+hdfs dfs -mkdir /data
 
 # 上传100w记录的csv
 hdfs dfs -copyFromLocal 2020-12-28_generated_demo.csv data
 
 #查看文件
-hdfs dfs -ls data
+hdfs dfs -ls /data
 
 
 
@@ -35,27 +35,28 @@ hdfs dfs -ls data
 import pydoop.hdfs as hdfs
 
 
-a = hdfs.path.isdir('test_not_exist')
-b = hdfs.path.isdir('data')
+a = hdfs.path.isdir('/test_not_exist')
+b = hdfs.path.isdir('/data')
 print(a==False, b==True)
 
-hdfs_client = hdfs.hdfs()
-data_list = hdfs_client.list_directory('data')
-print(data_list)
+if b==True :
+	hdfs_client = hdfs.hdfs()
+	data_list = hdfs_client.list_directory('/data')
+	print(data_list)
 
-for item in data_list:
-    print(item['name'])
-    if '2020-12-28_generated_demo.csv' in item['name']:
-        print('rm -->', item['name'])
-        hdfs.rm(item['name'], recursive=True, user=None)
+	for item in data_list:
+	    print(item['name'])
+	    if '2020-12-28_generated_demo.csv' in item['name']:
+	        print('rm -->', item['name'])
+	        hdfs.rm(item['name'], recursive=True, user=None)
 
-print('---after rm ---')
-data_list = hdfs_client.list_directory('data')
-print(data_list)
+	print('---after rm ---')
+	data_list = hdfs_client.list_directory('/data')
+	print(data_list)
 
-hdfs.put('2020-12-28_generated_demo.csv', 'data')
-print('---after put ---')
-data_list = hdfs_client.list_directory('data')
-print(data_list)
+	hdfs.put('2021-02-09_generated_demo.csv', '/data')
+	print('---after put ---')
+	data_list = hdfs_client.list_directory('/data')
+	print(data_list)
 
 

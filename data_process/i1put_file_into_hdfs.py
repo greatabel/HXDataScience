@@ -54,6 +54,17 @@ if b==True :
 	data_list = hdfs_client.list_directory('/data')
 	print(data_list)
 
+	print('---get test ---')
+	lines = []
+	with hdfs.open('hdfs://127.0.0.1:9000/data/source_demo.csv') as f:
+		for line in f:
+			# print(line, type(line))
+			l = line.decode('utf-8')
+			if '2020-11-15' in l:
+				lines.append(l)
+	print(lines)
+	print('---end get----')
+
 	hdfs.put('2021-02-09_generated_demo.csv', '/data')
 	print('---after put ---')
 	data_list = hdfs_client.list_directory('/data')

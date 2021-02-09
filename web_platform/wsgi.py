@@ -181,7 +181,8 @@ def senordata():
     # in future, front end unify send method, it need to amodify
     result = {}
 
-    result['data'] = ['sphere0, test1']
+    result['data'] = ['mock-record0,2019-01-01,100,1000',
+                      'mock-record1,2020-01-01,200,2000']
     return jsonify(result)
 
 

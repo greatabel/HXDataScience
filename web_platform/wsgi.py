@@ -1,5 +1,6 @@
 """App entry point."""
 import os
+import sys
 import json
 
 import flask_login
@@ -14,7 +15,13 @@ from flask import jsonify
 from movie import create_app
 from movie.domain.model import Director, User, Review, Movie
 
-import pydoop.hdfs as hdfs
+try:
+        print(sys.version)
+        import pydoop.hdfs as hdfs
+except ImportError as error:
+    # Output expected ImportErrors.
+    print(error)
+
 
 app = create_app()
 app.secret_key = "ABCabc123"

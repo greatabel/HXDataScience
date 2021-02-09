@@ -14,6 +14,7 @@ from flask import jsonify
 from movie import create_app
 from movie.domain.model import Director, User, Review, Movie
 
+import pydoop.hdfs as hdfs
 
 app = create_app()
 app.secret_key = "ABCabc123"
@@ -176,13 +177,23 @@ def senordata():
     if searchdate is None:
         return 405, 'not allowed'
 
+    print('---get from hdfs ---')
+    lines = []
+    with hdfs.open('hdfs://127.0.0.1:9000/data/source_demo.csv') as f:
+        for line in f:
+            # print(line, type(line))
+            l = line.decode('utf-8')
+            if '2020-11-15' in l:
+                lines.append(l)
+    print(lines)
+    print('---end get from hdfs----')
+
     # compatible for data post from url for putao and
     # data post from body for try-out approval from Apple
     # in future, front end unify send method, it need to amodify
     result = {}
 
-    result['data'] = ['mock-record0,2019-01-01,100,1000',
-                      'mock-record1,2020-01-01,200,2000']
+    result['data'] = lines
     return jsonify(result)
 
 

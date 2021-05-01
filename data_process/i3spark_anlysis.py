@@ -33,8 +33,9 @@ input = hiveCtx.read.csv(inputFile,
    `sensor_id`, `voltage`, `facility_type`
 '''
 input.registerTempTable("smi_sensor")
-print(input.show())
-topTweets = hiveCtx.sql("SELECT monitor_id, sensor_type FROM smi_sensor ORDER BY create_time desc LIMIT 10")
+# print(input.show())
+topTweets = hiveCtx.sql("SELECT monitor_id, sensor_type, batch_time, sensor_value \
+ FROM smi_sensor ORDER BY create_time asc LIMIT 10")
 print('依据 A =', topTweets.collect() )
 
 # https://stackoverflow.com/questions/39535447/attributeerror-dataframe-object-has-no-attribute-map

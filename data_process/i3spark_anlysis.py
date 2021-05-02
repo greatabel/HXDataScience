@@ -9,6 +9,9 @@ import json
 import sys
 from termcolor import colored
 
+from pyspark.sql.types import IntegerType, DoubleType
+from pyspark.sql.functions import *
+
 # 自带表头
 # inputFile = '../original_data/smi_sensor_202011_202011261650.csv'
 
@@ -60,8 +63,17 @@ input.registerTempTable("smi_sensor")
 # print(input.show())
 topSensors = hiveCtx.sql(
     "SELECT monitor_id, sensor_type, batch_time, sensor_value \
- FROM smi_sensor ORDER BY create_time asc LIMIT 50"
+ FROM smi_sensor ORDER BY create_time asc "
 )
+topSensors = topSensors.withColumn(
+    "sensor_value", regexp_replace("sensor_value", '"', "")
+)
+topSensors = topSensors.withColumn(
+    "sensor_value", topSensors["sensor_value"].cast(DoubleType())
+)
+
+
+
 print("依据 A =", topSensors.collect())
 
 
@@ -78,8 +90,8 @@ topMonitors = hiveCtx.sql(
  FROM smi_mointor "
 )
 
-from pyspark.sql.types import IntegerType
-from pyspark.sql.functions import *
+
+
 
 # remove quotes “ ” from a column of a Spark dataframe in pyspark
 topMonitors = topMonitors.withColumn(
@@ -98,7 +110,16 @@ print("依据 B =", topMonitors.collect())
 print(type(topMonitors))
 
 print("\n--join--\n")
-topSensors.join(topMonitors, ["monitor_id"], "left").show()
+df = topSensors.join(topMonitors, ["monitor_id"], "left")
+df.show()
+print(df.count())
+
+print("\n--group by--\n")
+# df.groupBy("monitor_id", "batch_time", "sensor_type").max("sensor_value")
+_df2= df.groupBy("monitor_id", "batch_time", "sensor_type").agg({"sensor_value": "max"})
+
+_df2.show()
+print(_df2.count())
 # https://stackoverflow.com/questions/39535447/attributeerror-dataframe-object-has-no-attribute-map
 # topTweetText = topTweets.rdd.map(lambda row : row.text)
 # print(topTweetText.collect() )

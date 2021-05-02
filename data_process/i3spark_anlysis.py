@@ -73,7 +73,6 @@ topSensors = topSensors.withColumn(
 )
 
 
-
 print("依据 A =", topSensors.collect())
 
 
@@ -89,8 +88,6 @@ topMonitors = hiveCtx.sql(
     "SELECT _c0 as monitor_id ,_c2 as monitor_code \
  FROM smi_mointor "
 )
-
-
 
 
 # remove quotes “ ” from a column of a Spark dataframe in pyspark
@@ -116,7 +113,9 @@ print(df.count())
 
 print("\n--group by--\n")
 # df.groupBy("monitor_id", "batch_time", "sensor_type").max("sensor_value")
-_df2= df.groupBy("monitor_id", "batch_time", "sensor_type").agg({"sensor_value": "max"})
+_df2 = df.groupBy("monitor_id", "batch_time", "sensor_type").agg(
+    {"sensor_value": "max"}
+)
 
 _df2.show()
 print(_df2.count())

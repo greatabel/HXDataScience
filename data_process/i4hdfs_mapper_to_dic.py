@@ -7,7 +7,7 @@ def my_parser():
     parser.add_argument('-sensorid', dest='sensorid', default="1234", required=True, type=str)
 
     parser_result = parser.parse_args()
-    # print(parser_result.sensorid, type(parser_result.sensorid))
+    print(parser_result.sensorid, type(parser_result.sensorid))
     return parser_result.sensorid
 
 

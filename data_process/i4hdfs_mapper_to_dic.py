@@ -4,7 +4,7 @@ import sys
 
 for line in sys.stdin:
     line = line.strip()
-    keys = line.split()
+    keys = line.split(',')
     if len(keys) > 5:
     	if keys[5] == '2468':
     		print(line)

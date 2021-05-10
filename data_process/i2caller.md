@@ -14,3 +14,10 @@ mapred streaming -input /data/luquan/* -output /user/abel/output1  -mapper "pyth
 
 
 hadoop fs -cat output1/part-00000
+
+--------------------
+
+mapred streaming -input /data/luquan/* -output /user/abel/output1  -mapper "python3 i4hdfs_mapper_to_dic.py 2468" -jobconf mapred.reduce.tasks=0
+
+
+hadoop fs -cat output1/part-00000

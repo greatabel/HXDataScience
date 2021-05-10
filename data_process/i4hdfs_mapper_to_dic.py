@@ -5,8 +5,8 @@ import sys
 for line in sys.stdin:
     line = line.strip()
     keys = line.split()
-    for key in keys:
-        value = 0
-        print('{0}\t{1}'.format(key, value) )
-    if '2468' in line:
-        print('line=>', line)
+    if len(keys) > 5:
+    	keys[5] == '2468':
+    	print(line)
+    # if '2468' in line:
+    #     print('line=>', line)

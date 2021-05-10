@@ -2,3 +2,15 @@ mapred streaming -input hdfs://127.0.0.1:9000/user/abel/data/2020-12-28_generate
 
 
 hadoop fs -cat output0/part-00000
+
+
+--------------------
+
+传感器分类
+
+--------------------
+
+mapred streaming -input hdfs://127.0.0.1:9000/user/abel//data/luquan/* -output /user/abel/output1  -mapper "python3 i4hdfs_mapper_to_dic.py" -jobconf mapred.reduce.tasks=0 
+
+
+hadoop fs -cat output1/part-00000

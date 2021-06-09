@@ -78,7 +78,7 @@ div[class*="release_year"] {
       </li>
 
      
-           {% if current_user.is_authenticated %}
+           {% if session['logged_in'] %}
       <li class="nav-item active">
          <a class="nav-link" href="/logout">logout <span class="sr-only">(current)</span></a>
         </li>
@@ -90,7 +90,7 @@ div[class*="release_year"] {
 
 
     </ul>
-    {% if not current_user.is_authenticated %}
+{% if not session['logged_in'] %}
     <form class="form-inline my-2 my-lg-0 navbar-right" action="/login" method="POST">
 
             <div class="form-group">

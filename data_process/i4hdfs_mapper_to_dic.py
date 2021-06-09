@@ -12,7 +12,7 @@ def my_parser():
 
 
 
-senorid =my_parser()
+senorid = my_parser()
 for line in sys.stdin:
     line = line.strip()
     keys = line.split(',')

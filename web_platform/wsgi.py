@@ -6,26 +6,47 @@ import json
 import flask_login
 from flask import request
 from flask import url_for
-from flask import redirect
+from flask import redirect, session
 from flask import Blueprint, render_template as rt
+from flask_sqlalchemy import SQLAlchemy
 
 from flask import Flask, Response
 from flask import jsonify
 
 from movie import create_app
-from movie.domain.model import Director, User, Review, Movie
+from movie.domain.model import Director, Review, Movie
 
 try:
-        print(sys.version)
-        import pydoop.hdfs as hdfs
+    print(sys.version)
+    import pydoop.hdfs as hdfs
 except ImportError as error:
     # Output expected ImportErrors.
     print(error)
 
 
+
 app = create_app()
 app.secret_key = "ABCabc123"
 app.debug = True
+
+# ---start  数据库 ---
+
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///hx_data.db"
+db = SQLAlchemy(app)
+
+# --- end   数据库 ---
+
+class User(db.Model):
+    """ Create user table"""
+
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True)
+    password = db.Column(db.String(80))
+
+    def __init__(self, username, password):
+        self.username = username
+        self.password = password
+
 
 
 login_manager = flask_login.LoginManager(app)
@@ -49,14 +70,18 @@ def load_user(email):
 def login():
     email = request.form.get("email")
     password = request.form.get("password")
-    stored_user = user_pass.get(email, None)
-    if stored_user and password == stored_user.password:
-
-        flask_login.login_user(stored_user)
-        print(stored_user.is_active, 'login')
-        return redirect(url_for('review'))
-    else:
-        print('login fail')
+    try:
+        data = User.query.filter_by(username=email, password=password).first()
+        print(data, '@'*10)
+        if data is not None:
+            print('test login')
+            session["logged_in"] = True
+            print('login sucess', '#'*20)
+            return redirect(url_for('home_bp.home',pagenum=1))
+        else:
+            return "Not Login"
+    except:
+        return "Not Login"
     return redirect(url_for('home_bp.home',pagenum=1))
 
 
@@ -74,15 +99,18 @@ def register():
     # salt = PH.get_salt()
     # hashed = PH.get_hash(pw1 + salt)
     print('register', email, pw1)
-    user = User(email, pw1)
-    user_pass[email] = user
-    print('register', user_pass, '#'*5)
+    new_user = User(
+        username=email, password=pw1
+    )
+    db.session.add(new_user)
+    db.session.commit()
+
     return redirect(url_for('home_bp.home',pagenum=1))
 
 
 @app.route("/logout")
 def logout():
-    flask_login.logout_user()
+    session["logged_in"] = False
     return redirect(url_for('home_bp.home',pagenum=1))
 
 reviews = []
@@ -205,5 +233,6 @@ def senordata():
 
 
 if __name__ == "__main__":
+    db.create_all()
     app.run(host='localhost', port=5000, threaded=False)
 

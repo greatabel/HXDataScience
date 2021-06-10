@@ -17,4 +17,4 @@ fi
 
 hive -e "";
 sqoop version;
-sleep 50
+sleep 20

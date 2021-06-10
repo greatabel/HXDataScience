@@ -1,5 +1,11 @@
-DROP TABLE smi_sensor;
+# 向Hive导入新数据过程分为3个阶段：
+1）定义表各个字段，该表讲用于导入数据
+2）把数据导入已创建的表中
+3） 针对上表执行HiveQL查询
 
+
+1）
+DROP TABLE smi_sensor ;
 CREATE TABLE `smi_sensor` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `company_id` int(11) DEFAULT NULL COMMENT '公司ID',
@@ -27,10 +33,21 @@ CREATE TABLE `smi_sensor` (
   `conversion_id` int(11) DEFAULT NULL COMMENT '关联 io id',
   `sensor_id` int(11) DEFAULT NULL COMMENT '关联传感器ID',
   `voltage` double(11,3) DEFAULT NULL,
-  `facility_type` tinyint(4) DEFAULT NULL COMMENT '设备类型',
-  PRIMARY KEY (`id`) USING BTREE,
-  KEY `smi_sensor_conversion` (`conversion_id`) USING HASH COMMENT '根据conversion_id创建索引',
-  KEY `idx_facility_three` (`facility_three`),
-  KEY `idx_monitor_id` (`monitor_id`),
-  KEY `idx_batch_time` (`batch_time`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='传感器数据表'
+  `facility_type` tinyint(4) DEFAULT NULL COMMENT '设备类型'
+
+)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ',' ;
+
+
+hadoop 已经存在了：
+/hxdata/smi_sensor_20210605small.csv
+
+2）
+LOAD DATA INPATH '/hxdata/smi_sensor_20210605small.csv' OVERWRITE INTO TABLE smi_sensor ;
+
+3）
+执行查询（不需要进入hive terminal）
+hive -e "select count(*) from smi_sensor;"
+-
+hive -e "select sensor_id from smi_sensor limit 5;"

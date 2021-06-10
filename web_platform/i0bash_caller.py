@@ -14,7 +14,7 @@ def open_client(x=""):
         print('# test bash', '#'*20)
         time.sleep(3)
         os.system(
-            "gnome-terminal -e 'bash -c \"source samaritan0; sqoop version;\"'"
+            "gnome-terminal -e 'bash -c \"source samaritan0; i0test.sh ;\"'"
             .format(x))
     except OSError:
         print("Can't open {}.py".format(x))

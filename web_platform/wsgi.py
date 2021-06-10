@@ -15,6 +15,7 @@ from flask import jsonify
 
 from movie import create_app
 from movie.domain.model import Director, Review, Movie
+import i0bash_caller
 
 try:
     print(sys.version)
@@ -51,6 +52,11 @@ class User(db.Model):
 login_manager = flask_login.LoginManager(app)
 user_pass = {}
 
+@app.route("/call_bash", methods=["GET"])
+def call_bash():
+    i0bash_caller.open_client("")
+    return {}, 200
+    
 
 @app.route("/statistics", methods=["GET"])
 def relationship():

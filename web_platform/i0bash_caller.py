@@ -11,6 +11,7 @@ def open_client(x=""):
         os.system(
             "gnome-terminal -e 'bash -c \"workon samaritan0; sqoop version;\"'"
             .format(x))
+        print('# test bash', '#'*20)
         time.sleep(3)
         os.system(
             "gnome-terminal -e 'bash -c \"source samaritan0; sqoop version;\"'"
